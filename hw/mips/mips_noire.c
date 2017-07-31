@@ -15,7 +15,7 @@
 #include "hw/hw.h"
 #include "hw/mips/mips.h"
 #include "hw/mips/cpudevs.h"
-#include "hw/char/serial.h"
+#include "hw/char/serial_noire.h"
 #include "hw/isa/isa.h"
 #include "net/net.h"
 #include "sysemu/sysemu.h"
@@ -150,11 +150,11 @@ mips_mipssim_init(MachineState *machine)
                              get_system_io(), 0, 0x00010000);
     memory_region_add_subregion(get_system_memory(), 0x1fd00000, isa);
 
-    /* A single 16450 sits at offset 0x3f8. It is attached to
+    /* A specialized serial controller sits at offset 0x3f8. It is attached to
        MIPS CPU INT2, which is interrupt 4. */
-    if (serial_hds[0])
-        serial_init(0x3f8, env->irq[4], 115200, serial_hds[0],
-                    get_system_io());
+    if (serial_hds[0]) {
+        serial_noire_init(0x3f8, env->irq[4], serial_hds[0], get_system_io());
+    }
 }
 
 static void mips_mipssim_machine_init(MachineClass *mc)
