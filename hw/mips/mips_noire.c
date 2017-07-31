@@ -51,7 +51,8 @@ static void main_cpu_reset(void *opaque)
 static void
 mips_mipssim_init(MachineState *machine)
 {
-    ram_addr_t ram_size = machine->ram_size;
+    ram_addr_t ram_size = 8 * 1024 * 1024;
+    fprintf(stderr, "NOTE: RAM size = 8M and is fixed\n");
     const char *cpu_model = machine->cpu_model;
     const char *kernel_filename = machine->kernel_filename;
     char *filename;
